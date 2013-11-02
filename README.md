@@ -9,7 +9,13 @@ require 'fit'
 
 fit_file = Fit.load_file(ARGV[0])
 
-records = fit_file.records.select{ |r| r.content.record_type == :record }.map{ |r| r.content }
+valid = fit_file.records.select{ |r| r.content != nil }
+
+records = valid.select{ |r| r.content.record_type == :record }.map{ |r| r.content }
+
+summary = valid.select{|r| r.content.record_type == :session}.map{ |r| r.content}
+
+laptimes = valid.select{|r| r.content.record_type == :lap}.map{|r| r.content.raw_total_timer_time}
 ```
 
 ## Contributing to fit
